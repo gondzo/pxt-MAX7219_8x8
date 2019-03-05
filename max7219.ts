@@ -93,7 +93,7 @@ namespace MAX7219_Matrix {
     
         for (let i=0;i<8;i++){
             for(let j = 0; j < 8; ++j)
-                output[j] += Math.pow(2,7-i) * ((matrix[offset+i] >> j) & 1);
+                output[7-j] += Math.pow(2,i) * ((matrix[offset+i] >> j) & 1);
         }
     
         for (let i=0;i<8;i++){
