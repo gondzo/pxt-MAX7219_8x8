@@ -154,11 +154,13 @@ namespace MAX7219_Matrix {
             }
             // write every 8 columns of display array (visible area) to each MAX7219s
             let matrixCountdown = _matrixNum - 1
+            //quick fix - rotate copy matrix each time only to rotate rows
+            let _displayArrayCopy = JSON.parse(JSON.stringify(_displayArray));
             for (let j = 8; j < _displayArray.length - 8; j += 8) {
                 if (matrixCountdown < 0) break
-                _rotateOneMatrix(_displayArray,j)
+                _rotateOneMatrix(_displayArrayCopy,j)
                 for (let k = j; k < j + 8; k++) {
-                    _registerForOne(_DIGIT[k - j], _displayArray[k], matrixCountdown)
+                    _registerForOne(_DIGIT[k - j], _displayArrayCopy[k], matrixCountdown)
                 }
                 matrixCountdown -= 1
             }
