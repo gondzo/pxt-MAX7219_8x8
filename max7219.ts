@@ -155,7 +155,10 @@ namespace MAX7219_Matrix {
             // write every 8 columns of display array (visible area) to each MAX7219s
             let matrixCountdown = _matrixNum - 1
             //quick fix - rotate copy matrix each time only to rotate rows
-            let _displayArrayCopy = _displayArray.slice();
+            let _displayArrayCopy: number[] = []
+            for (let m=0;m<_displayArray.length;m++){
+                _displayArrayCopy.push(_displayArray[m])
+            }
             for (let j = 8; j < _displayArray.length - 8; j += 8) {
                 if (matrixCountdown < 0) break
                 _rotateOneMatrix(_displayArrayCopy,j)
