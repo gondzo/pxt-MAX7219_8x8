@@ -85,6 +85,22 @@ namespace MAX7219_Matrix {
         }
     }
 
+    function _rotateOneMatrix(matrix: number[], offset: number){
+        let output: number[] = []
+        for (let i=0;i<8;i++){
+            output.push(0);
+        }
+    
+        for (let i=0;i<8;i++){
+            for(let j = 0; j < 8; ++j)
+                output[j] += Math.pow(2,7-i) * ((matrix[offset+i] >> j) & 1);
+        }
+    
+        for (let i=0;i<8;i++){
+            matrix[offset+i] = output[i];
+        }
+    }
+
     /**
     * Scroll a text accross all MAX7219 matrixs for once
     */
@@ -140,6 +156,7 @@ namespace MAX7219_Matrix {
             let matrixCountdown = _matrixNum - 1
             for (let j = 8; j < _displayArray.length - 8; j += 8) {
                 if (matrixCountdown < 0) break
+                _rotateOneMatrix(_displayArray,j)
                 for (let k = j; k < j + 8; k++) {
                     _registerForOne(_DIGIT[k - j], _displayArray[k], matrixCountdown)
                 }
@@ -196,6 +213,7 @@ namespace MAX7219_Matrix {
         let matrixCountdown = _matrixNum - 1
         for (let i = 8; i < _displayArray.length - 8; i += 8) {
             if (matrixCountdown < 0) break
+            _rotateOneMatrix(_displayArray,i)
             for (let j = i; j < i + 8; j++) {
                 _registerForOne(_DIGIT[j - i], _displayArray[j], matrixCountdown)
             }
@@ -233,6 +251,7 @@ namespace MAX7219_Matrix {
             let matrixCountdown = _matrixNum - 1
             for (let i = 8; i < _displayArray.length - 8; i += 8) {
                 if (matrixCountdown < 0) break
+                _rotateOneMatrix(_displayArray,i)
                 for (let j = i; j < i + 8; j++) {
                     _registerForOne(_DIGIT[j - i], _displayArray[j], matrixCountdown)
                 }
